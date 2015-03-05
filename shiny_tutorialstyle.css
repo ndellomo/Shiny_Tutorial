@@ -1,0 +1,26 @@
+#ui-layouts-and-panels > ul:nth-child(1) > li:nth-child(2) > img:nth-child(1) {
+	height: 350px;
+	padding-top: 15px;
+	
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#ui-layouts-and-panels-contd-1 > ul:nth-child(1) > li:nth-child(1) > img:nth-child(1) {
+	height: 400px;
+	padding-top: 15px;
+	
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#ui-layouts-and-panels-contd-2 > ul:nth-child(1) > li:nth-child(1) > img:nth-child(1) {
+	height: 300px;
+	padding-top: 15px;
+	
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
