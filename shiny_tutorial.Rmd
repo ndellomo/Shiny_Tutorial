@@ -2,87 +2,98 @@
 title: "Building Web Applications with R/Shiny"
 author: "Douglas Friedman"
 date: "TBD"
-output: 
+output:
   ioslides_presentation:
     css: shiny_tutorialstyle.css
-    widscreen: true
-    incremental: true
+    incremental: no
+    smaller: yes
+    transition: faster
+    widscreen: yes
+    fig_width: 2  
 ---
 
 
-## What is R?
+## What is R? {.flexbox .vcenter}
 * __R__ is "a freely available language and environment for statistical computing and graphics which provides a wide variety of statistical and graphical techniques." [(CRAN)](http://cran.r-project.org/)
 * Because it is open-source, users contribute and maintain over 5,000 packages or libraries that extend or add new functionality to R (e.g. timeseries analysis, webscraping).
 * As a statistical package, R's popularity has been growing steadily in a variety of analytics-related fields and is expected to continue to do so.
 
 
-## What is Shiny?
+## What is Shiny? {.flexbox .vcenter}
+* __Shiny__ is a package designed to allow R users to develop interactive web applications without the need for HTML, CSS, or Javascript.
+    + Shiny Gallery - [Gallery](http://shiny.rstudio.com/gallery/)
+* It is especially well suited to rapid prototyping as building a polished web application can be done in as short as an hour using the templates included in the library. 
+
+![movie](shiny_tutorialpics/movie.PNG)
 
 
-## Shiny 101
+## Shiny 101{.flexbox .vcenter}
 * Shiny applications are made up of two components.
-    + A visual template, or user interface, for their application and create toggles/buttons for user interaction.
-    + The functionality of the application as part of the backend, or server, which stores functions that use R's statistical libraries.
-* These components are stored in two separate R files (ui.R and server.R) which govern the user interface and server for the application respectively. 
+    + A visual template, or __user interface__, for their application and create toggles/buttons for user interaction.
+    + The functionality of the application as part of the backend, or __server__, which stores functions that use R's statistical libraries.
+* These components are stored in two separate R files (__ui.R__ and __server.R__) which govern the user interface and server for the application respectively. 
 * Even though these files are separate, be sure to coordinate development between the two files as a user interface is nothing without functionality behind it and functionality is nothing without the ability for the user to access it.
-* When beginning an R shiny application, you should create a new folder in your current working directory to contain the ui and server files as this keeps development process organized and will prevent any issues with running the application later on.
+* When beginning an R shiny application, you should create a new folder in your current working directory to contain the __ui__ and __server__ files as this keeps development process organized and will prevent any issues with running the application later on.
 
 
-## First Steps
-* Before writing any code, it is important to map out your desired application both in terms of user interface and server functionality. This could be a hand-drawn sketch or an outline of the application's features. While the plan might change during the development, it will be much easier to develop a pre-defined application than to develop one on the fly.
+## First Steps {.flexbox .vcenter}
+* __Before writing any code__, it is important to map out your desired application both in terms of user interface and server functionality. This could be a hand-drawn sketch or an outline of the application's features. While the plan might change during the development, it will be much easier to develop a pre-defined application than to develop one on the fly.
 * For our purposes, let's try to create a simple web application that lets users perform changepoint detection on time series data. The user interface will allow the user to choose an algorithmic approach using a radio button and the results will be displayed graphically (as a plot of the detected segments) and numerically (listing the changepoints).
-* To begin, create a folder in your working directory with the name of your application (try to avoid spaces or special characters in the name) and create two blank R files called "ui.R" and "server.R" which will house the user interface and server components.
+* To begin, create a folder in your working directory with the name of your application (try to avoid spaces or special characters in the name) __and create two blank R files called "ui.R" and "server.R" which will house the user interface and server components__.
 
 
-## UI: Layouts and Panels
+## UI: Layouts and Panels {.flexbox .vcenter}
 * Shiny provides several templates for the user interface for you the choose from. These templates are made up of layouts (a visual design for the entire page) and panels (selected elements that are placed inside of a layout).
 * Here's an example of a simple sidebar layout with a few panels.
 ![uipanels1](shiny_tutorialpics/uipanels1.PNG)
 
 
-## UI: Layouts and Panels (CONT'D)
+## UI: Layouts and Panels (CONT'D) {.flexbox .vcenter}
 * Sidebar layouts are the most popular for shiny applications as they are easy to implement and visually appealing, but there are also other types of layouts (e.g. grid layout, split layout). 
     + For more information about available layouts, check out the Shiny Application Layout Guide - (http://shiny.rstudio.com/articles/layout-guide.html)  
 * No matter what layout you choose to build your user interface around, you can mix and match panels within that layout as you see fit.
 * There are several types of panels in shiny
-    + sidebarPanel - A general panel that contains the visual elements for the side of the page, usually the toggles for user interactivity.
-    + titlePanel - A simple panel that generates a large piece of text which usually contains the title for the application.
-    + mainPanel - This panel normally contains the outputs or primary functionality of the application (e.g. plots, tables).
+    + `sidebarPanel` - A general panel that contains the visual elements for the side of the page, usually the toggles for user interactivity.
+    + `titlePanel` - A simple panel that generates a large piece of text which usually contains the title for the application.
+    + `mainPanel` - This panel normally contains the outputs or primary functionality of the application (e.g. plots, tables).
 
 
-## UI: Layouts and Panels (CONT'D)
-* tabsetPanel and tabPanel - These panels work together to create tabs for the user to navigate between different pieces of output.
+## UI: Layouts and Panels (CONT'D) {.flexbox .vcenter}  
+* `tabsetPanel` and `tabPanel`  
+    + These panels work together to create tabs for the user to navigate between different pieces of output.  
+    
 ![uipanels2](shiny_tutorialpics/uipanels2.PNG)
 
 
-## UI: Layouts and Panels (CONT'D 2)
-* navlistPanel and navbarPanel - Similar to the tab oriented panels, these panels create a list of links to the side of an application or a top-level horizontal bar for users to navigate between different outputs.
+## UI: Layouts and Panels (CONT'D 2) {.flexbox .vcenter}
+* `navlistPanel` and `navbarPanel`     
+    + Similar to the tab oriented panels, these panels create a list of links to the side of an application or a top-level horizontal bar for users to navigate between different outputs.  
+  
 ![uipanels3](shiny_tutorialpics/uipanels3.PNG)
 
 
-## UI: Coding the Layout and Panels
-* Most ui.R files will have the same general structure...
+## UI: Coding the Layout and Panels {.flexbox .vcenter}  
+* Most __ui.R__ files will have the same general structure...
 ```{r, eval=FALSE}
 shinyUI(fluidPage(
   titlePanel("mytitle"),
   
   sidebarLayout(
-  
-  sidebarPanel(
+    sidebarPanel(
     ## User Inputs (e.g. toggles, buttons)
-  ),
-  
-  mainPanel(
+      ),
+    mainPanel(
     ## Server Outputs (e.g. plots, tables)
+      )
+    )
   )
-  
-  )
-))
+)
 ```
-* Feel free to use this exact code to start any ui.R file you develop. 
+
+* Feel free to use this exact code to start any __ui.R__ file you develop. 
 
 
-## UI: Input Widgets
+## UI: Input Widget  
 * After you've selected a layout and some panels, the next step is to choose input widgets for user interactivity. To explore and test available input widgets, check out the [Shiny Widget Gallery](http://shiny.rstudio.com/gallery/widget-gallery.html ).
 * Remember that whatever input widgets you choose will have to link back to the server functionality so it is normally best practice to pick a widget whose inputs are limited to just what you will need to generate the outputs. 
     + E.g. Do not give users a text field to enter any string if the application will only react to a few select strings. Instead, opt to use a radio button which limits the user's choices to a few strings.
