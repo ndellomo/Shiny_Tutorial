@@ -101,17 +101,17 @@ shinyUI(fluidPage(
 * Remember that whatever input widgets you choose will have to link back to the server functionality so it is normally best practice to pick a widget whose inputs are limited to just what you will need to generate the outputs. 
     + _E.g. Do not give users a text field to enter any string if the application will only react to a few select strings. Instead, opt to use a radio button which limits the user's choices to a few strings._
 
-## UI: Input Widgets (CONT‚ÄôD) {.flexbox .vcenter}  
+## UI: Input Widgets (CONTíD) {.flexbox .vcenter}  
 * Each input widget has the same general set of parameters:
     + `inputId` - a __unique__ name for the widget
     + `label` - a piece of text to accompany the widget (usually instructions to the user)
-    + `choices` or `min`/`max` ‚Äì a list or numeric range of the limited set of values available to the user
-    + `value` or `selected` ‚Äì the initial or default value(s) for the input when the application first loads  
+    + `choices` or `min`/`max` ñ a list or numeric range of the limited set of values available to the user
+    + `value` or `selected` ñ the initial or default value(s) for the input when the application first loads  
 
 <img src="shiny_tutorialpics/inputwidgets.tiff" alt="Drawing" style="width: 600px;"/> 
 
 ## UI: Coding the Input Widgets  {.flexbox .vcenter}  
-* Given our application plan, we‚Äôll choose to add a radio button widget for the user to select an algorithmic approach to detecting changepoint...  
+* Given our application plan, weíll choose to add a radio button widget for the user to select an algorithmic approach to detecting changepoint...  
 ```{r, eval=FALSE}
 shinyUI(fluidPage(
   
@@ -122,7 +122,7 @@ shinyUI(fluidPage(
     sidebarPanel(
       radioButtons(inputId = "algo",
                    label = "Pick an algorithm to detect changepoints...",
-                   # The syntax for the choices parameter (‚ÄúNAME‚Äù = ‚ÄúVALUE‚Äù)
+                   # The syntax for the choices parameter (ìNAMEî = ìVALUEî)
                    # This keeps the UI clean
                    choices = c("PELT" = "PELT",
                                "AMOC" = "AMOC",
@@ -147,7 +147,7 @@ shinyServer(
 <img src="shiny_tutorialpics/runapp.tiff" alt="Drawing" style="width: 800px;"/>  
 * To stop the application, just hit the Escape key in the R console.
 
-## UI: Testing the UI Elements (CONT‚ÄôD)  {.flexbox .vcenter} 
+## UI: Testing the UI Elements (CONTíD)  {.flexbox .vcenter} 
 * Most of the time, a shiny application will fail to load on the first try due to syntax issues (_E.g.  a missing parenthesis or comma_). If the application failed to load properly, then R will print describe the error that caused it to crash in the console and in the application.
 * Sometime the error message will be vague or just generally unhelpful. In that case, try removing the widget or panels one at a time and rerunning the application. This will at least help narrow down the source of the issue and then you can begin to hone in on the root cause.  
 
@@ -156,13 +156,13 @@ shinyServer(
 ## Server: Inputs and Outputs  {.flexbox .vcenter} 
 * The __server.R__ file is actually a giant function that takes in all the user inputs as its parameters and returns results to the specified panels in the __ui.R__ file (usually the main panel). 
 * All of the user inputs are passed to this function as a list where the values the user has selected are the components and the names of these components are the unique inputId assigned to the input widgets.  
-    + _E.g. In our sample application, the user‚Äôs choice of algorithm choice would be stored in `input$algo`._  
+    + _E.g. In our sample application, the userís choice of algorithm choice would be stored in `input$algo`._  
 * To pass output back to the user interface, two things are required.
     1. The desired output has to be passed through one of a series of __render functions__. The results of this render function are then passed to a list, called output, where the components are the outputs and the names of the components are unique names assigned in the __server.R__ file.
     2. Each rendered output needs dedicated space in the user interface. This is done by placing an __output function__ in __ui.R__ file where that output should appear and passing it the unique name assigned to the output in the __server.R__ file.  
 * Each render function has an accompanying output function...
 
-## Server: Inputs and Outputs (CONT‚ÄôD)  {.flexbox .vcenter} 
+## Server: Inputs and Outputs (CONTíD)  {.flexbox .vcenter} 
 <img src="shiny_tutorialpics/serverfunctions.tiff" alt="Drawing" style="width: 800px;"/>  
 
 * Be sure to pass to correct type of output to correct render and output functions otherwise it will not display correctly.  
@@ -170,13 +170,13 @@ shinyServer(
 * That last render and output function are used for creating reactive UI elements (_more on that later_).
 
 ## Server: Coding the Output  {.flexbox .vcenter}   
-* Per the application plan, we‚Äôre going to add output for a plot (the segment plot) and some text (the list of change points)...  
+* Per the application plan, weíre going to add output for a plot (the segment plot) and some text (the list of change points)...  
 
 <img src="shiny_tutorialpics/codingoutput.tiff" alt="Drawing" style="width: 800px;"/>   
 
 * Notice that the render functions have parentheses and curly braces.
 
-## Server: Coding the Output (CONT‚ÄôD)  {.flexbox .vcenter}   
+## Server: Coding the Output (CONTíD)  {.flexbox .vcenter}   
 * This code yields the application we outlined at the beginning...  
 
 <img src="shiny_tutorialpics/output.tiff" alt="Drawing" style="width: 800px;"/>    
@@ -184,9 +184,9 @@ shinyServer(
 * While this application works as intended, the aesthetics leave something to be desired. Additionally, there is duplicative code in the __server.R__ file that creates the mlondon object twice (once for each output).
 
 ## Adding Some UI Polish  {.flexbox .vcenter}   
-* Let‚Äôs deal with the aesthetics first. The outputs in the main panel are misaligned to the user inputs in the side panel. To address this, we will add some length to side panel by adding some information about the application and the data being displayed.  
+* Letís deal with the aesthetics first. The outputs in the main panel are misaligned to the user inputs in the side panel. To address this, we will add some length to side panel by adding some information about the application and the data being displayed.  
     + For explanatory text, shiny provides a `helpText()` function that formats this type of text nicely in the side panel.  
-* Next, we‚Äôll change the size of the graphic to align with the side panel by passing the `plotOutput` function a height parameter in pixels, abbreviated as px (_the default size of plots in shiny is 400px_). After some trial and error, the ideal plot size appears to be about 325px.  
+* Next, weíll change the size of the graphic to align with the side panel by passing the `plotOutput` function a height parameter in pixels, abbreviated as px (_the default size of plots in shiny is 400px_). After some trial and error, the ideal plot size appears to be about 325px.  
 * Finally, the main panel could some visual structure and organization. By placing our outputs in a tab panel with two tabs (one for the plot and one for the change points), the application looks much better.
 
 ## Adding Some UI Polish: Code  {.flexbox .vcenter}   
@@ -208,7 +208,7 @@ shinyServer(
 ## Adding Reactive UI Elements  {.flexbox .vcenter}   
 * Now that the function is aesthetically pleasing and optimized, we can take the time to further build on the functionality of the application using reactive user interface elements. This is done using the combination of the `renderUI` function in the __server.R__ file and the `uiOutput` function in the UI file.
 * These functions work similarly to the others, but instead of returning a plot the `renderUI` function will return code to place in the __ui.R__ file (_E.g. a new input widget_). Just place any code that you would include in the __ui.R__ file inside the `renderUI` function.
-* The advantage of doing this is that you can have the user interface react with the user‚Äôs input choices. In our case, we are going to have the application give the user an additional input widget (a slider) when they choose a specific algorithm to give them further control over how many changepoints to detect. 
+* The advantage of doing this is that you can have the user interface react with the userís input choices. In our case, we are going to have the application give the user an additional input widget (a slider) when they choose a specific algorithm to give them further control over how many changepoints to detect. 
 
 ## Adding Reactive UI Elements: Code  {.flexbox .vcenter}   
 <img src="shiny_tutorialpics/reactive.tiff" alt="Drawing" style="width: 800px;"/> 
@@ -217,8 +217,8 @@ shinyServer(
 <img src="shiny_tutorialpics/reactive2.tiff" alt="Drawing" style="width: 800px;"/> 
 
 ## Recap: Steps to Developing A Shiny App   {.flexbox .vcenter}   
-1. __Before coding__, design and plan your application‚Äôs layout and desired functionality.
-2. Create the __ui.R__ file. Then, drop in the user interface layout, panels, and input widgets that fit your application‚Äôs needs.
+1. __Before coding__, design and plan your applicationís layout and desired functionality.
+2. Create the __ui.R__ file. Then, drop in the user interface layout, panels, and input widgets that fit your applicationís needs.
 3. Create a blank __server.R__ file and run the application to make sure that the user interface displays properly and that there are no syntax errors.
 4. Fill out the __server.R__ and __ui.R__ files with the render and output functions necessary to implement the desired functionality at the most basic level.
 5. Try running the application with the newly coded outputs and debug if necessary.
@@ -230,7 +230,7 @@ shinyServer(
 * This presentation only scratched the surface of what is possible with shiny. For more information and tutorials on different topics (_E.g. building custom input widgets_), check out the official [Shiny site](http://shiny.rstudio.com/articles/).
 * While knowing HTML, CSS, and Javascript are not necessary, they can greatly improve the appearance of shiny applications. Shiny supports most major HTML5 tags and the inclusion of custom CSS.
 * The popularity of the shiny package has also created a cottage industry of R packages that add additional functionality to shiny applications (_E.g. the ability to embed D3.js visualizations_). These R packages are listed on the official Shiny site as well.
-* Developing a shiny application from scratch can sometimes be daunting at first, so it may be easiest to edit the code for an existing shiny application. Over time, you‚Äôll end up recycling code from your own shiny applications.
+* Developing a shiny application from scratch can sometimes be daunting at first, so it may be easiest to edit the code for an existing shiny application. Over time, youíll end up recycling code from your own shiny applications.
 
 ## Source Materials 
 * [Official R Shiny Tutorial](http://shiny.rstudio.com/tutorial/)
